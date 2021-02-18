@@ -226,7 +226,7 @@ Creates a new question.
 }
 ```
 
-DELETE `/questions/<question_id>`
+#### DELETE `/questions/<question_id>`
 
 Deletes a question based on its id. Returns the id of the deleted question and a paginated list of the remaining questions.
 
@@ -341,7 +341,7 @@ Searches the `question` section of available questions. Returns a paginatd of qu
 }
 ```
 
-GET `categories/<category_id>/questions`
+#### GET `categories/<category_id>/questions`
 
 Retrieves all available questions for a given category, identified by its id.
 
