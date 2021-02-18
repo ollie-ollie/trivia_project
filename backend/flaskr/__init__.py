@@ -159,6 +159,7 @@ def create_app(test_config=None):
             body = request.get_json()
             previous_questions = body['previous_questions']
             quizz_category = body['quiz_category']
+            print(body)
             
             if quizz_category['id'] == 0:
                 quizz_question_query = Question.query.\
