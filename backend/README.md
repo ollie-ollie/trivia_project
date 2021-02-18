@@ -90,7 +90,7 @@ GET '/categories'
 ```
 ## API reference
 
-GET `/categories`
+#### GET `/categories`
 
 Retrieves all available categories.
 
@@ -113,7 +113,7 @@ Retrieves all available categories.
 }
 ```
 
-GET `/questions?page=<page_number>`
+#### GET `/questions?page=<page_number>`
 
 Retrieves all available questions, paginated by sets of 10 (see the `QUESTIONS_PER_PAGE` constant in `backend/flaskr/__init__.py`). The default page is the first one (when sending a GET request at `/questions`) but the user can optionally specify another page number.
 
@@ -210,7 +210,7 @@ Retrieves all available questions, paginated by sets of 10 (see the `QUESTIONS_P
 }
 ```
 
-POST `/questions`
+#### POST `/questions`
 
 Creates a new question.
 
@@ -315,7 +315,7 @@ Deletes a question based on its id. Returns the id of the deleted question and a
 }
 ```
 
-POST `questions/search`
+#### POST `questions/search`
 
 Searches the `question` section of available questions. Returns a paginatd of questions that match the search.
 
@@ -395,7 +395,7 @@ Retrieves all available questions for a given category, identified by its id.
 }
 ```
 
-POST `/quizzes`
+#### POST `/quizzes`
 
 In the `Play` section of the app, this endpoint retrieves a question at random, possibly in a given category, that has not yet been answered in a given session of play.
 
