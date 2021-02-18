@@ -4,7 +4,14 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
-from models import setup_db, Question, Category
+from models import setup_db, Question
+
+DB_HOST = os.getenv('DB_HOST', '127.0.0.1:5432')
+DB_USER = os.getenv('DB_USER', 'postgres')
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'postgres')
+DB_NAME = os.getenv('DB_NAME', 'trivia_test')
+DB_PATH = 'postgresql+psycopg2://{}:{}@{}/{}'.\
+    format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
 
 
 class TriviaTestCase(unittest.TestCase):
@@ -14,8 +21,7 @@ class TriviaTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = "trivia_test"
-        self.database_path = "postgres://postgres:postgres@{}/{}".format('localhost:5432', self.database_name)
+        self.database_path = DB_PATH
         setup_db(self.app, self.database_path)
 
         self.question_to_delete = Question(
@@ -43,7 +49,7 @@ class TriviaTestCase(unittest.TestCase):
             self.db.init_app(self.app)
             # create all tables
             self.db.create_all()
-    
+
     def tearDown(self):
         """Executed after reach test"""
         pass
@@ -120,25 +126,31 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'method not allowed')
 
     def test_search_questions_with_results(self):
-        res = self.client().post('/questions/search', json={'search': 'Van Gogh'})
+        res = self.client().post(
+            '/questions/search', json={'search': 'Van Gogh'}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)  
+        self.assertEqual(data['success'], True)
         self.assertTrue(data['total_questions'])
         self.assertEqual(len(data['questions']), 1)
 
     def test_search_questions_without_results(self):
-        res = self.client().post('/questions/search', json={'search': 'Weird search'})
+        res = self.client().post(
+            '/questions/search', json={'search': 'Weird search'}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)  
+        self.assertEqual(data['success'], True)
         self.assertEqual(data['total_questions'], 0)
-        self.assertEqual(len(data['questions']), 0) 
+        self.assertEqual(len(data['questions']), 0)
 
     def test_search_questions_failure(self):
-        res = self.client().post('/questions/search', json={'wrong_key': 'Van Gogh'})
+        res = self.client().post(
+            '/questions/search', json={'wrong_key': 'Van Gogh'}
+        )
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)
@@ -150,7 +162,7 @@ class TriviaTestCase(unittest.TestCase):
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)  
+        self.assertEqual(data['success'], True)
         self.assertTrue(data['questions'])
         self.assertTrue(data['total_questions'])
         self.assertEqual(data['current_category'], 1)
@@ -181,7 +193,8 @@ class TriviaTestCase(unittest.TestCase):
 
     """
     TODO
-    Write at least one test for each test for successful operation and for expected errors.
+    Write at least one test for each test for successful
+    operation and for expected errors.
     """
 
 
